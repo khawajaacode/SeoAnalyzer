@@ -25,7 +25,7 @@ export default function Header() {
             "p-1.5 rounded-md transition-colors duration-200",
             isDarkMode ? "bg-slate-700/40" : "bg-slate-200/50"
           )}>
-            <Search className={cn("h-5 w-5", isDarkMode ? "text-[#B0B3B8]" : "text-primary")} />
+            <Search className={cn("h-5 w-5", isDarkMode ? "text-[#FFFFFF]" : "text-primary")} />
           </div>
           <h1 className={`${isMobile ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} tracking-tight text-foreground font-montserrat uppercase`}>
             <span className="font-bold">SEO</span>{" "}
