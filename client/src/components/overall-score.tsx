@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { AlertCircle, AlertTriangle, CheckCircle, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ExportButtons from "./export-buttons";
+import { SEOAnalysisResult } from "@/types/seo";
 
 interface OverallScoreProps {
   url: string;
   score: number;
+  result?: SEOAnalysisResult;
 }
 
-export default function OverallScore({ url, score }: OverallScoreProps) {
+export default function OverallScore({ url, score, result }: OverallScoreProps) {
   const [showDetails, setShowDetails] = useState(false);
   
   // Calculate circular progress parameters
@@ -77,6 +80,11 @@ export default function OverallScore({ url, score }: OverallScoreProps) {
               )}>
                 {scoreInfo.rating}
               </div>
+              {result && (
+                <div className="ml-auto flex items-center">
+                  <ExportButtons result={result} />
+                </div>
+              )}
             </div>
             <div className="flex items-center mt-1 text-gray-600">
               <span className="truncate max-w-[300px]">{getDomain(url)}</span>

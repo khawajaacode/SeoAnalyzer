@@ -17,7 +17,7 @@ export default function ResultsContainer({ result }: ResultsContainerProps) {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300 slide-in-from-bottom-5">
-      <OverallScore url={result.url} score={result.score} />
+      <OverallScore url={result.url} score={result.score} result={result} />
       
       {/* Visual summary cards showing high-level category scores */}
       <SEOSummaryCards result={result} onTabChange={handleTabChange} />
