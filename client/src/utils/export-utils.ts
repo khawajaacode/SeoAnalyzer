@@ -5,11 +5,24 @@ import Papa from 'papaparse';
 import { SEOAnalysisResult, SEORecommendation } from '@/types/seo';
 
 // Define types for jspdf-autotable
+// Import types from jspdf-autotable
+import { UserOptions } from 'jspdf-autotable';
+
 interface jsPDFWithAutoTable extends jsPDF {
-  autoTable: (options: any) => jsPDFWithAutoTable;
+  autoTable: (options: UserOptions) => jsPDFWithAutoTable;
   lastAutoTable: {
     finalY: number;
   };
+}
+
+// Augment jsPDF types to include autoTable
+declare module 'jspdf' {
+  interface jsPDF {
+    autoTable: (options: UserOptions) => jsPDF;
+    lastAutoTable: {
+      finalY: number;
+    };
+  }
 }
 
 export const exportToPDF = (result: SEOAnalysisResult) => {
