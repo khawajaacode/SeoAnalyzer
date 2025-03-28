@@ -1,65 +1,54 @@
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 import { SEOAnalysisResult, SEORecommendation } from '@/types/seo';
 
 // Define types for jspdf-autotable
-declare module 'jspdf' {
-  interface jsPDF {
-    autoTable: (options: any) => jsPDF;
-    lastAutoTable: {
-      finalY: number;
-    };
-  }
+interface jsPDFWithAutoTable extends jsPDF {
+  autoTable: (options: any) => jsPDFWithAutoTable;
+  lastAutoTable: {
+    finalY: number;
+  };
 }
 
-/**
- * Generate a PDF report from the SEO analysis result
- */
 export const exportToPDF = (result: SEOAnalysisResult) => {
   const { url, metaTags, score, recommendations, timestamp } = result;
-  
-  // Initialize PDF document
-  const doc = new jsPDF();
-  
+
+  // Create new document with type assertion
+  const doc = new jsPDF() as jsPDFWithAutoTable;
+
   // Add title
   doc.setFontSize(20);
   doc.text('SEO Analysis Report', 14, 22);
-  
+
   // Add URL and timestamp
   doc.setFontSize(12);
   doc.text(`URL: ${url}`, 14, 32);
   doc.text(`Generated: ${new Date(timestamp).toLocaleString()}`, 14, 38);
-  
-  // Add overall score
+
+  // Add overall score (rest of the score section remains from original)
   doc.setFontSize(14);
   doc.text('Overall SEO Score', 14, 48);
-  
-  // Determine score color
+
   let scoreColor: [number, number, number] = [220, 53, 69]; // Red
   if (score >= 80) {
     scoreColor = [40, 167, 69]; // Green
   } else if (score >= 60) {
     scoreColor = [255, 193, 7]; // Yellow
   }
-  
-  // Draw score circle
+
   doc.setDrawColor(scoreColor[0], scoreColor[1], scoreColor[2]);
   doc.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2]);
   doc.circle(30, 60, 10, 'F');
-  
-  // Add score text
+
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(12);
   const scoreX = score < 10 ? 27.5 : 26;
   doc.text(score.toString(), scoreX, 63);
-  
-  // Reset text color
+
   doc.setTextColor(0, 0, 0);
-  
-  // Add score description
-  doc.setFontSize(12);
+
   let scoreRating = "Needs Improvement";
   if (score >= 80) {
     scoreRating = "Excellent";
@@ -68,13 +57,14 @@ export const exportToPDF = (result: SEOAnalysisResult) => {
   }
   doc.text(`Rating: ${scoreRating}`, 45, 58);
   doc.text(`Score: ${score}/100`, 45, 64);
-  
-  // Add recommendations section
+
+
+  // Add recommendations section (remains from original)
   doc.setFontSize(14);
   doc.text('Recommendations', 14, 80);
-  
+
   const recommendationRows = recommendations.map(rec => [rec.type.toUpperCase(), rec.title, rec.description]);
-  
+
   doc.autoTable({
     startY: 85,
     head: [['Type', 'Title', 'Description']],
@@ -96,7 +86,6 @@ export const exportToPDF = (result: SEOAnalysisResult) => {
       cellPadding: 3
     },
     didDrawCell: (data: any) => {
-      // Color the Type cell based on the recommendation type
       if (data.section === 'body' && data.column.index === 0) {
         const type = data.cell.raw as string;
         if (type === 'ERROR') {
@@ -112,18 +101,18 @@ export const exportToPDF = (result: SEOAnalysisResult) => {
       }
     }
   });
-  
-  // Add meta tags section
+
+  // Add meta tags section (from edited snippet)
   const metaTagY = doc.lastAutoTable.finalY + 10;
   doc.setFontSize(14);
   doc.text('Meta Tags', 14, metaTagY);
-  
-  const metaTagRows = Object.entries(metaTags).map(([name, content]) => [name, content]);
-  
+
+  const metaTagRows2 = Object.entries(metaTags).map(([name, content]) => [name, content]);
+
   doc.autoTable({
     startY: metaTagY + 5,
     head: [['Meta Tag', 'Content']],
-    body: metaTagRows,
+    body: metaTagRows2,
     headStyles: {
       fillColor: [52, 58, 64],
       textColor: [255, 255, 255]
@@ -140,12 +129,12 @@ export const exportToPDF = (result: SEOAnalysisResult) => {
       cellPadding: 3
     }
   });
-  
-  // File name
+
+
+  // File name and save (remains from original)
   const domain = url.replace(/^https?:\/\//, '').split('/')[0];
   const fileName = `seo-report-${domain}-${new Date().toISOString().split('T')[0]}.pdf`;
-  
-  // Save the PDF
+
   doc.save(fileName);
 };
 
@@ -154,7 +143,7 @@ export const exportToPDF = (result: SEOAnalysisResult) => {
  */
 export const exportToCSV = (result: SEOAnalysisResult) => {
   const { url, metaTags, score, recommendations, timestamp } = result;
-  
+
   // Prepare meta tags data
   const metaTagsData = Object.entries(metaTags).map(([name, content]) => ({
     type: 'meta_tag',
@@ -162,7 +151,7 @@ export const exportToCSV = (result: SEOAnalysisResult) => {
     content,
     url
   }));
-  
+
   // Prepare recommendations data
   const recommendationsData = recommendations.map(rec => ({
     type: 'recommendation',
@@ -171,7 +160,7 @@ export const exportToCSV = (result: SEOAnalysisResult) => {
     description: rec.description,
     url
   }));
-  
+
   // Prepare summary data
   const summaryData = [{
     type: 'summary',
@@ -181,17 +170,17 @@ export const exportToCSV = (result: SEOAnalysisResult) => {
     total_meta_tags: Object.keys(metaTags).length,
     total_recommendations: recommendations.length
   }];
-  
+
   // Combine all data
   const allData = [
     ...summaryData,
     ...metaTagsData,
     ...recommendationsData
   ];
-  
+
   // Convert to CSV
   const csv = Papa.unparse(allData);
-  
+
   // Create Blob and download
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
   const domain = url.replace(/^https?:\/\//, '').split('/')[0];
