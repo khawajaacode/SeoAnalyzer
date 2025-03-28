@@ -13,19 +13,17 @@ export default function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="w-9 h-9 relative"
+      className="relative h-10 w-10"
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       <Sun 
         className={cn(
-          "h-5 w-5 absolute transition-all duration-300",
-          isDark ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
+          "absolute h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
         )}
       />
       <Moon 
         className={cn(
-          "h-5 w-5 absolute transition-all duration-300",
-          isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"
+          "absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
         )}
       />
     </Button>
