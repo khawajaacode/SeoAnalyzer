@@ -13,10 +13,10 @@ export default function Header() {
 
   return (
     <header className={cn(
-      "border-b sticky top-0 z-10 transition-colors duration-200",
+      "border-b sticky top-0 z-50 transition-colors duration-200",
       isDarkMode 
-        ? "bg-background/95 backdrop-blur-sm border-slate-800" 
-        : "bg-background border-slate-200"
+        ? "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 border-slate-800" 
+        : "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 border-slate-200"
     )}>
       <div className="container mx-auto px-4 py-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-2">
         {/* Logo and Title */}
