@@ -13,7 +13,7 @@ export default function ThemeToggle() {
       <Sun 
         className={cn(
           "h-4 w-4 transition-all duration-200",
-          isDark ? "opacity-50 rotate-0" : "text-yellow-500 rotate-90"
+          isDark ? "text-[#B0B3B8] rotate-0" : "text-yellow-500 rotate-90"
         )} 
       />
       
@@ -27,7 +27,7 @@ export default function ThemeToggle() {
       <Moon 
         className={cn(
           "h-4 w-4 transition-all duration-200",
-          isDark ? "text-slate-400 rotate-0" : "opacity-50 -rotate-90"
+          isDark ? "text-[#FFFFFF] rotate-0" : "opacity-50 -rotate-90"
         )} 
       />
     </div>
