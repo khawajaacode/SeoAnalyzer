@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import URLInputForm from "@/components/url-input-form";
 import ResultsContainer from "@/components/results-container";
+import HowItWorks from "@/components/how-it-works";
 import { SEOAnalysisResult } from "@/types/seo";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
@@ -59,6 +60,10 @@ export default function Home() {
            
       <div className="relative z-10">
         <URLInputForm onSubmit={handleAnalyzeUrl} isLoading={isLoading} />
+        
+        {!analysisResult && (
+          <HowItWorks />
+        )}
         
         {analysisResult && (
           <ResultsContainer result={analysisResult} />
