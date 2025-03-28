@@ -5,12 +5,29 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link, Loader2 } from "lucide-react";
+import { useTheme } from "@/contexts/theme-context";
 
+// Client-side form schema with more user-friendly validation
 const urlFormSchema = z.object({
   url: z
     .string()
-    .url({ message: "Please enter a valid URL including http:// or https://" })
-    .trim(),
+    .min(1, { message: "Please enter a website URL" })
+    .trim()
+    .transform((value) => {
+      // If URL doesn't start with http:// or https://, prepend https://
+      if (!value.match(/^https?:\/\//i)) {
+        return `https://${value}`;
+      }
+      return value;
+    })
+    .refine((value) => {
+      try {
+        new URL(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }, { message: "Please enter a valid website URL" }),
 });
 
 type UrlFormValues = z.infer<typeof urlFormSchema>;
@@ -21,6 +38,8 @@ interface URLInputFormProps {
 }
 
 export default function URLInputForm({ onSubmit, isLoading }: URLInputFormProps) {
+  const { theme } = useTheme();
+  
   const form = useForm<UrlFormValues>({
     resolver: zodResolver(urlFormSchema),
     defaultValues: {
@@ -34,8 +53,8 @@ export default function URLInputForm({ onSubmit, isLoading }: URLInputFormProps)
 
   return (
     <section className="mb-8">
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-lg font-medium text-gray-800 mb-4">
+      <div className="bg-card rounded-lg shadow-md p-6">
+        <h2 className="text-lg font-medium text-foreground mb-4">
           Enter a website URL to inspect SEO meta tags
         </h2>
         <Form {...form}>
@@ -48,12 +67,12 @@ export default function URLInputForm({ onSubmit, isLoading }: URLInputFormProps)
                   <FormControl>
                     <div className="relative flex-grow">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Link className="h-5 w-5 text-gray-400" />
+                        <Link className="h-5 w-5 text-muted-foreground" />
                       </div>
                       <Input
                         {...field}
                         className="pl-10 pr-3 py-3"
-                        placeholder="https://example.com"
+                        placeholder="example.com"
                         disabled={isLoading}
                       />
                     </div>
@@ -64,7 +83,7 @@ export default function URLInputForm({ onSubmit, isLoading }: URLInputFormProps)
             />
             <Button 
               type="submit"
-              className="px-5 py-3 bg-primary text-white hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 sm:w-auto w-full"
+              className="px-5 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 sm:w-auto w-full"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -78,6 +97,7 @@ export default function URLInputForm({ onSubmit, isLoading }: URLInputFormProps)
             </Button>
           </form>
         </Form>
+        <p className="text-xs text-muted-foreground mt-2">No need to type http:// or https://, we'll handle that for you!</p>
       </div>
     </section>
   );

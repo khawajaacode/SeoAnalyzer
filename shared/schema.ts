@@ -18,12 +18,26 @@ export const insertSeoResultSchema = createInsertSchema(seoResults).omit({
   id: true,
 });
 
-// Schema for URL validation
+// Schema for URL validation with protocol handling
 export const urlSchema = z.object({
   url: z
     .string()
-    .url({ message: "Please enter a valid URL including http:// or https://" })
-    .trim(),
+    .trim()
+    .transform((value) => {
+      // If URL doesn't start with http:// or https://, prepend https://
+      if (!value.match(/^https?:\/\//i)) {
+        return `https://${value}`;
+      }
+      return value;
+    })
+    .refine((value) => {
+      try {
+        new URL(value);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }, { message: "Please enter a valid website URL" }),
 });
 
 export type InsertSeoResult = z.infer<typeof insertSeoResultSchema>;
