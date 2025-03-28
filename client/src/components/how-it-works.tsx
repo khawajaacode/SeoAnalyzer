@@ -20,7 +20,7 @@ export default function HowItWorks() {
           Our tool fetches your website's HTML, extracts all meta tags, and analyzes them against SEO best practices. 
           Here's how to use it:
         </p>
-        
+
         <div className="space-y-4">
           <div className="flex gap-3">
             <div className="mt-0.5 bg-primary/10 rounded-full p-1.5 h-8 w-8 flex items-center justify-center shrink-0">
@@ -34,7 +34,7 @@ export default function HowItWorks() {
               </p>
             </div>
           </div>
-          
+
           <div className="flex gap-3">
             <div className="mt-0.5 bg-primary/10 rounded-full p-1.5 h-8 w-8 flex items-center justify-center shrink-0">
               <BarChart2 className="h-4 w-4 text-primary" />
@@ -48,7 +48,7 @@ export default function HowItWorks() {
               </p>
             </div>
           </div>
-          
+
           <div className="flex gap-3">
             <div className="mt-0.5 bg-primary/10 rounded-full p-1.5 h-8 w-8 flex items-center justify-center shrink-0">
               <Check className="h-4 w-4 text-primary" />
@@ -62,21 +62,8 @@ export default function HowItWorks() {
               </p>
             </div>
           </div>
-          
-          <div className="flex gap-3">
-            <div className="mt-0.5 bg-primary/10 rounded-full p-1.5 h-8 w-8 flex items-center justify-center shrink-0">
-              <Download className="h-4 w-4 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-medium text-foreground mb-1">Export and share your results</h3>
-              <p className="text-sm text-muted-foreground">
-                Save your SEO analysis as a PDF or CSV file to share with colleagues or clients, 
-                or to refer back to as you implement improvements.
-              </p>
-            </div>
-          </div>
         </div>
-        
+
         <div className="mt-6 bg-muted/50 p-4 rounded-md border">
           <p className="text-sm">
             <strong>💡 Pro Tip:</strong> This tool is completely free and provides immediate feedback on SEO best practices. 
