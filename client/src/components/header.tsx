@@ -15,15 +15,15 @@ export default function Header() {
     <header className={cn(
       "border-b sticky top-0 z-50 transition-colors duration-200",
       isDarkMode 
-        ? "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 border-slate-800" 
-        : "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75 border-slate-200"
+        ? "bg-[#1B222D]/95 backdrop-blur supports-[backdrop-filter]:bg-[#1B222D]/75 border-slate-800" 
+        : "bg-[#F5F6F8]/95 backdrop-blur supports-[backdrop-filter]:bg-[#F5F6F8]/75 border-slate-200"
     )}>
       <div className="container mx-auto px-4 py-4 flex flex-wrap md:flex-nowrap items-center justify-between gap-y-2">
         {/* Logo and Title */}
         <div className="flex items-center gap-2.5">
           <div className={cn(
             "p-1.5 rounded-md transition-colors duration-200",
-            isDarkMode ? "bg-primary/20" : "bg-primary/10"
+            isDarkMode ? "bg-slate-700/40" : "bg-slate-200/50"
           )}>
             <Search className="h-5 w-5 text-primary" />
           </div>
