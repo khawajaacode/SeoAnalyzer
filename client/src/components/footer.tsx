@@ -1,9 +1,16 @@
+import { useIsMobile } from "@/hooks/use-mobile";
+
 export default function Footer() {
+  const isMobile = useIsMobile();
+  
   return (
-    <footer className="bg-gray-100 border-t border-gray-200 mt-10">
-      <div className="container mx-auto px-4 py-6">
-        <p className="text-center text-gray-600 text-sm">
-          SEO Meta Tag Inspector - Check and optimize your website's SEO meta tags
+    <footer className="bg-muted border-t mt-10">
+      <div className="container mx-auto px-4 py-4">
+        <p className="text-center text-muted-foreground text-xs sm:text-sm">
+          {isMobile 
+            ? "SEO Meta Tag Inspector" 
+            : "SEO Meta Tag Inspector - Check and optimize your website's SEO meta tags"
+          }
         </p>
       </div>
     </footer>

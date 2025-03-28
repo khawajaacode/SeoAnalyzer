@@ -1,38 +1,44 @@
-import { users, type User, type InsertUser } from "@shared/schema";
+import { seoResults, type SeoResult, type InsertSeoResult } from "@shared/schema";
 
-// modify the interface with any CRUD methods
-// you might need
-
+// Storage interface for SEO analysis application
 export interface IStorage {
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getSeoResult(id: number): Promise<SeoResult | undefined>;
+  getSeoResultsByUrl(url: string): Promise<SeoResult[]>;
+  createSeoResult(result: InsertSeoResult): Promise<SeoResult>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<number, User>;
+  private seoResults: Map<number, SeoResult>;
   currentId: number;
 
   constructor() {
-    this.users = new Map();
+    this.seoResults = new Map();
     this.currentId = 1;
   }
 
-  async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+  async getSeoResult(id: number): Promise<SeoResult | undefined> {
+    return this.seoResults.get(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+  async getSeoResultsByUrl(url: string): Promise<SeoResult[]> {
+    return Array.from(this.seoResults.values()).filter(
+      (result) => result.url === url,
     );
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async createSeoResult(insertResult: InsertSeoResult): Promise<SeoResult> {
     const id = this.currentId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    // Ensure all properties have proper types to satisfy SeoResult interface
+    const result: SeoResult = { 
+      ...insertResult, 
+      id,
+      title: insertResult.title || null,
+      description: insertResult.description || null,
+      score: insertResult.score || null,
+      analysisData: insertResult.analysisData || null
+    };
+    this.seoResults.set(id, result);
+    return result;
   }
 }
 

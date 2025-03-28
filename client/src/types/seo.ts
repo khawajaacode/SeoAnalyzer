@@ -4,6 +4,7 @@ export interface SEOAnalysisResult {
   score: number;
   recommendations: SEORecommendation[];
   timestamp: string;
+  primaryColor?: string;
 }
 
 export interface SEORecommendation {

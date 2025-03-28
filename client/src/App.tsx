@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { ThemeProvider } from "@/contexts/theme-context";
 
 function Router() {
   return (
@@ -23,8 +24,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
+      <ThemeProvider>
+        <div className="min-h-screen bg-background transition-colors duration-200">
+          <Router />
+          <Toaster />
+        </div>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

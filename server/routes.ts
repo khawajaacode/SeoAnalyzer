@@ -47,6 +47,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         });
         
+        // Extract theme-color meta tag if available
+        const themeColor = $('meta[name="theme-color"]').attr("content") || 
+                          $('meta[name="msapplication-TileColor"]').attr("content") || "";
+        
         // Extract canonical link
         const canonical = $('link[rel="canonical"]').attr("href") || "";
         if (canonical) {
@@ -163,6 +167,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
           });
         }
         
+        // Attempt to extract primary color from website
+        let primaryColor = themeColor;
+        
+        // If no theme color meta tag, try to use brand colors from open graph
+        if (!primaryColor && metaTags["og:image"]) {
+          // Default to a common brand color if we can't extract one
+          primaryColor = "#0366d6";
+        }
+        
         // Return the analysis result
         return res.json({
           url,
@@ -170,13 +183,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
           score: percentScore,
           recommendations,
           timestamp: new Date().toISOString(),
+          primaryColor
         });
         
       } catch (error) {
         console.error("Error fetching or parsing URL:", error);
         return res.status(500).json({
           message: "Failed to fetch or parse the URL",
-          error: error.message,
+          error: error instanceof Error ? error.message : String(error),
         });
       }
       
@@ -190,7 +204,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       return res.status(500).json({
         message: "An unexpected error occurred",
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
       });
     }
   });
