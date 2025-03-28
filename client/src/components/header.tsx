@@ -1,4 +1,4 @@
-import { Search, BookOpen, ExternalLink } from "lucide-react";
+import { BookOpen, ExternalLink } from "lucide-react";
 import ThemeToggle from "@/components/theme-toggle";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,17 @@ export default function Header() {
             "p-1.5 rounded-md transition-colors duration-200",
             isDarkMode ? "bg-slate-700/40" : "bg-slate-200/50"
           )}>
-            <Search className={cn("h-5 w-5", isDarkMode ? "text-[#FFFFFF]" : "text-primary")} />
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className={cn("h-5 w-5", isDarkMode ? "text-[#FFFFFF]" : "text-primary")}
+              stroke="currentColor"
+            >
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 17L12 22L22 17" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M2 12L12 17L22 12" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
           <h1 className={`${isMobile ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} tracking-tight text-foreground font-montserrat uppercase`}>
             <span className="font-bold">SEO</span>{" "}
