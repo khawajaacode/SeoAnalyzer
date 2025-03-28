@@ -3,6 +3,7 @@ import SearchPreview from "./search-preview";
 import SocialPreviews from "./social-previews";
 import MetaTagsTable from "./meta-tags-table";
 import Recommendations from "./recommendations";
+import SEOCategoryBreakdown from "./seo-category-breakdown";
 import { SEOAnalysisResult } from "@/types/seo";
 
 interface TabInterfaceProps {
@@ -15,6 +16,7 @@ export default function TabInterface({ activeTab, onTabChange, result }: TabInte
   const tabs = [
     { id: "search-preview", label: "Search Preview" },
     { id: "social-previews", label: "Social Previews" },
+    { id: "breakdown", label: "Tag Breakdown" },
     { id: "meta-tags", label: "Meta Tags" },
     { id: "recommendations", label: "Recommendations" },
   ];
@@ -51,6 +53,10 @@ export default function TabInterface({ activeTab, onTabChange, result }: TabInte
         
         {activeTab === "social-previews" && (
           <SocialPreviews metaTags={result.metaTags} url={result.url} />
+        )}
+        
+        {activeTab === "breakdown" && (
+          <SEOCategoryBreakdown result={result} />
         )}
         
         {activeTab === "meta-tags" && (
