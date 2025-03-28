@@ -10,9 +10,7 @@ interface OverallScoreProps {
   result?: SEOAnalysisResult;
 }
 
-export default function OverallScore({ url, score, result }: OverallScoreProps) {
-  const [showDetails, setShowDetails] = useState(false);
-  
+export default function OverallScore({ url, score }: OverallScoreProps) {
   // Calculate circular progress parameters
   const radius = 15.9155;
   const circumference = 2 * Math.PI * radius;
