@@ -27,10 +27,10 @@ export default function Header() {
           )}>
             <Search className="h-5 w-5 text-primary" />
           </div>
-          <h1 className={`${isMobile ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} tracking-tight text-foreground font-montserrat`}>
+          <h1 className={`${isMobile ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} tracking-tight text-foreground font-montserrat uppercase`}>
             <span className="font-bold">SEO</span>{" "}
-            <span className="font-normal text-muted-foreground">Meta Tag</span>{" "}
-            <span className="font-bold">Inspector</span>
+            <span className="font-medium text-muted-foreground">META TAG</span>{" "}
+            <span className="font-bold">INSPECTOR</span>
           </h1>
         </div>
         
