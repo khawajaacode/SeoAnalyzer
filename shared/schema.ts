@@ -43,3 +43,11 @@ export const urlSchema = z.object({
 export type InsertSeoResult = z.infer<typeof insertSeoResultSchema>;
 export type SeoResult = typeof seoResults.$inferSelect;
 export type UrlInput = z.infer<typeof urlSchema>;
+
+export interface SEORecommendation {
+  type: "error" | "warning" | "success";
+  title: string;
+  description: string;
+  steps?: string[];
+  priority: number;
+}
