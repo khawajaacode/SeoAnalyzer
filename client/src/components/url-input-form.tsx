@@ -92,7 +92,7 @@ export default function URLInputForm({ onSubmit, isLoading }: URLInputFormProps)
                   <span>Analyzing...</span>
                 </>
               ) : (
-                <span>Inspect SEO Tags</span>
+                <span>Analyze SEO</span>
               )}
             </Button>
           </form>
